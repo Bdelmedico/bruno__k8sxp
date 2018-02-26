@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: 2018-02-26T18:36:01Z
+  generation: 1
+  labels:
+    run: nginx
+    app: k8s-aula
+    env: desenv
+  name: nginx
+  namespace: default
+  resourceVersion: "1878"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/nginx
+  uid: e4cd1987-1b23-11e8-a97b-080027ef6147
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: nginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: nginx
+    spec:
+      containers:
+      - image: nginx
+        imagePullPolicy: Always
+        name: nginx
+        volumeMounts:
+        - name: repo-nginx
+          mountPath: /usr/share/nginx/html 
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      nodeSelector:
+         dc: UK
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: repo-nginx
+        persistentVolumeClaim:
+          claimName: pvc-nginx
