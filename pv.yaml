@@ -1,6 +1,7 @@
+kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: repo-nginx
+  name: pv-nginx
   labels:
     type: local
 spec:
